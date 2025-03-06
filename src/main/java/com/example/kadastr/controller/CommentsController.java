@@ -2,18 +2,20 @@ package com.example.kadastr.controller;
 
 import com.example.kadastr.dto.AnswerMessageJson;
 import com.example.kadastr.dto.CommentDto;
+import com.example.kadastr.exception.InvalidInputDataException;
 import com.example.kadastr.exception.NoSuchIdException;
 import com.example.kadastr.service.CommentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-//todo add validator
 @RestController
 @RequestMapping("/api/comments")
 public class CommentsController extends AbstractController {
@@ -40,14 +42,16 @@ public class CommentsController extends AbstractController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public AnswerMessageJson createComment(@RequestBody CommentDto commentDto) throws NoSuchIdException {
+    public AnswerMessageJson createComment(@Valid @RequestBody CommentDto commentDto, BindingResult bindingResult) throws NoSuchIdException, InvalidInputDataException {
+        bindingResultCheck(bindingResult);
         commentService.createComment(commentDto.getIdNews(), commentDto);
         return constructAnswer("Comment was successfully created", "CREATED");
     }
 
     @PatchMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public AnswerMessageJson updateComment(@PathVariable UUID uuid, @RequestBody CommentDto commentDto) throws NoSuchIdException {
+    public AnswerMessageJson updateComment(@PathVariable UUID uuid, @Valid @RequestBody CommentDto commentDto, BindingResult bindingResult) throws NoSuchIdException, InvalidInputDataException {
+        bindingResultCheck(bindingResult);
         commentService.updateComment(uuid, commentDto);
         return constructAnswer("Comment with uuid = " + uuid + " was successfully updated", "UPDATED");
     }

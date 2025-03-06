@@ -2,12 +2,15 @@ package com.example.kadastr.controller;
 
 import com.example.kadastr.dto.AnswerMessageJson;
 import com.example.kadastr.dto.NewsDto;
+import com.example.kadastr.exception.InvalidInputDataException;
 import com.example.kadastr.exception.NoSuchIdException;
 import com.example.kadastr.service.NewsService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,14 +50,16 @@ public class NewsController extends AbstractController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public AnswerMessageJson createNews(@RequestBody NewsDto newsDto) {
+    public AnswerMessageJson createNews(@Valid @RequestBody NewsDto newsDto, BindingResult bindingResult) throws InvalidInputDataException {
+        bindingResultCheck(bindingResult);
         newsService.createNews(newsDto);
         return constructAnswer("News was successfully created", "CREATED");
     }
 
     @PatchMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public AnswerMessageJson updateNewsById(@PathVariable UUID uuid, @RequestBody NewsDto newsDto) throws NoSuchIdException {
+    public AnswerMessageJson updateNewsById(@PathVariable UUID uuid, @Valid @RequestBody NewsDto newsDto, BindingResult bindingResult) throws NoSuchIdException, InvalidInputDataException {
+        bindingResultCheck(bindingResult);
         newsService.updateNews(uuid, newsDto);
         return constructAnswer("News with uuid = " + uuid + " was updated", "UPDATED");
     }
