@@ -31,7 +31,7 @@ public class News {
     private UUID insertedById;
     private UUID updatedById;
 
-    @OneToMany(mappedBy = "news")
+    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private Set<Comment> comments = new HashSet<>();
 
     @Override
