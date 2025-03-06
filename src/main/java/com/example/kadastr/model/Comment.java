@@ -26,6 +26,7 @@ public class Comment {
     private LocalDateTime creationDate;
     private LocalDateTime lastEditDate;
     private UUID insertedById;
+    @Column(insertable = false, updatable = false)
     private UUID idNews;
 
     @ManyToOne

@@ -4,6 +4,7 @@ import com.example.kadastr.dto.AnswerMessageJson;
 import com.example.kadastr.dto.CommentDto;
 import com.example.kadastr.exception.NoSuchIdException;
 import com.example.kadastr.service.CommentService;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-//todo add validator and norm ans
+//todo add validator
 @RestController
 @RequestMapping("/api/comments")
 public class CommentsController extends AbstractController {
@@ -20,7 +21,7 @@ public class CommentsController extends AbstractController {
     private final CommentService commentService;
 
     @Autowired
-    public CommentsController(AnswerMessageJson answerMessageJson, CommentService commentService) {
+    public CommentsController(ObjectProvider<AnswerMessageJson> answerMessageJson, CommentService commentService) {
         super(answerMessageJson);
         this.commentService = commentService;
     }
@@ -39,20 +40,23 @@ public class CommentsController extends AbstractController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void createComment(@RequestBody CommentDto commentDto) throws NoSuchIdException {
+    public AnswerMessageJson createComment(@RequestBody CommentDto commentDto) throws NoSuchIdException {
         commentService.createComment(commentDto.getIdNews(), commentDto);
+        return constructAnswer("Comment was successfully created", "CREATED");
     }
 
     @PatchMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateComment(@PathVariable UUID uuid, @RequestBody CommentDto commentDto) throws NoSuchIdException {
+    public AnswerMessageJson updateComment(@PathVariable UUID uuid, @RequestBody CommentDto commentDto) throws NoSuchIdException {
         commentService.updateComment(uuid, commentDto);
+        return constructAnswer("Comment with uuid = " + uuid + " was successfully updated", "UPDATED");
     }
 
     @DeleteMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void deleteComment(@PathVariable UUID uuid) throws NoSuchIdException {
+    public AnswerMessageJson deleteComment(@PathVariable UUID uuid) throws NoSuchIdException {
         commentService.deleteComment(uuid);
+        return constructAnswer("Comment with uuid = " + uuid + " was successfully deleted", "DELETED");
     }
 
 }

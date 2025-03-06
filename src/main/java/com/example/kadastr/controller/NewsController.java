@@ -4,6 +4,8 @@ import com.example.kadastr.dto.AnswerMessageJson;
 import com.example.kadastr.dto.NewsDto;
 import com.example.kadastr.exception.NoSuchIdException;
 import com.example.kadastr.service.NewsService;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,8 @@ public class NewsController extends AbstractController {
 
     private final NewsService newsService;
 
-    public NewsController(AnswerMessageJson answerMessageJson, NewsService newsService) {
+    @Autowired
+    public NewsController(ObjectProvider<AnswerMessageJson> answerMessageJson, NewsService newsService) {
         super(answerMessageJson);
         this.newsService = newsService;
     }
@@ -44,19 +47,22 @@ public class NewsController extends AbstractController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void createNews(@RequestBody NewsDto newsDto) {
+    public AnswerMessageJson createNews(@RequestBody NewsDto newsDto) {
         newsService.createNews(newsDto);
+        return constructAnswer("News was successfully created", "CREATED");
     }
 
     @PatchMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateNewsById(@PathVariable UUID uuid, @RequestBody NewsDto newsDto) throws NoSuchIdException {
+    public AnswerMessageJson updateNewsById(@PathVariable UUID uuid, @RequestBody NewsDto newsDto) throws NoSuchIdException {
         newsService.updateNews(uuid, newsDto);
+        return constructAnswer("News with uuid = " + uuid + " was updated", "UPDATED");
     }
 
     @DeleteMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void deleteNews(@PathVariable UUID uuid) throws NoSuchIdException {
+    public AnswerMessageJson deleteNews(@PathVariable UUID uuid) throws NoSuchIdException {
         newsService.deleteNews(uuid);
+        return constructAnswer("News with uuid = " + uuid + " was deleted", "DELETED");
     }
 }
