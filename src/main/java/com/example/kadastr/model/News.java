@@ -32,7 +32,7 @@ public class News {
     private UUID updatedById;
 
     @OneToMany(mappedBy = "news")
-    Set<Comment> comments = new HashSet<>();
+    private Set<Comment> comments = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
