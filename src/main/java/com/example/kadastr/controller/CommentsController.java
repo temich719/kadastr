@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+//todo add validator and norm ans
 @RestController
 @RequestMapping("/api/comments")
 public class CommentsController extends AbstractController {
