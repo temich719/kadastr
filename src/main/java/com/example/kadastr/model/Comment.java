@@ -23,10 +23,13 @@ public class Comment {
     @Column(name = "id")
     private UUID uuid;
     private String text;
+    @Column(name = "creationDate")
     private LocalDateTime creationDate;
+    @Column(name = "lastEditDate")
     private LocalDateTime lastEditDate;
+    @Column(name = "insertedById")
     private UUID insertedById;
-    @Column(insertable = false, updatable = false)
+    @Column(name = "idNews", insertable = false, updatable = false)
     private UUID idNews;
 
     @ManyToOne

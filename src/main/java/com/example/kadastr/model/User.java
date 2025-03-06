@@ -26,8 +26,11 @@ public class User {
     private String password;
     private String name;
     private String surname;
+    @Column(name = "parentName")
     private String parentName;
+    @Column(name = "creationDate")
     private LocalDateTime creationDate;
+    @Column(name = "lastEditDate")
     private LocalDateTime lastEditDate;
 
     @ManyToOne

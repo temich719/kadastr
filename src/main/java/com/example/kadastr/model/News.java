@@ -26,12 +26,16 @@ public class News {
     private UUID uuid;
     private String title;
     private String text;
+    @Column(name = "creationDate")
     private LocalDateTime creationDate;
+    @Column(name = "lastEditDate")
     private LocalDateTime lastEditDate;
+    @Column(name = "insertedById")
     private UUID insertedById;
+    @Column(name = "updatedById")
     private UUID updatedById;
 
-    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
 
     @Override

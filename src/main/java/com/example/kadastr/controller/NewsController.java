@@ -27,14 +27,14 @@ public class NewsController extends AbstractController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<NewsDto> getNewsList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int size) {
+    public List<NewsDto> getNewsList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
         return newsService.getNewsList(page, size);
     }
 
     @GetMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public NewsDto getNewsById(@PathVariable UUID uuid,
-                               @RequestParam(defaultValue = "1") int page,
+                               @RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "5") int size) throws NoSuchIdException {
         return newsService.getNewsById(uuid, page, size);
     }

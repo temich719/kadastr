@@ -49,7 +49,10 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(
                         () -> new NoSuchIdException("News with uuid = " + newsId + " doesn't exist")
                 );
-        news.getComments().add(commentMapper.mapToModel(commentDto));
+        Comment comment = commentMapper.mapToModel(commentDto);
+        comment.setNews(news);
+        comment.setIdNews(news.getUuid());
+        news.getComments().add(comment);
         newsDAO.save(news);
     }
 

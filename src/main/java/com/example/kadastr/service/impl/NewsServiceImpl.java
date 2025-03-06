@@ -72,8 +72,7 @@ public class NewsServiceImpl implements NewsService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteNews(UUID uuid) throws NoSuchIdException {
-        getPureNewsById(uuid);
-        newsDAO.deleteById(uuid);
+        newsDAO.delete(getPureNewsById(uuid));
     }
 
     private News getPureNewsById(UUID uuid) throws NoSuchIdException {
