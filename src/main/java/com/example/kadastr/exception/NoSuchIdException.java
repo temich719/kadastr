@@ -1,13 +1,12 @@
 package com.example.kadastr.exception;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@AllArgsConstructor
 @Getter
 public class NoSuchIdException extends Exception {
 
-    private final String message;
+    private String message;
 
-    public NoSuchIdException(String message) {
-        this.message = message;
-    }
 }

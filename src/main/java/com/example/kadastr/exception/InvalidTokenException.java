@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class InvalidInputDataException extends Exception {
+public class InvalidTokenException extends Exception{
 
     private String message;
 

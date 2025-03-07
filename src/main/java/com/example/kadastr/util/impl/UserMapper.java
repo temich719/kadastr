@@ -8,6 +8,8 @@ import com.example.kadastr.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Component
 public class UserMapper implements Mapper<User, UserDto> {
 
@@ -22,7 +24,7 @@ public class UserMapper implements Mapper<User, UserDto> {
     public User mapToModel(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword());
+        user.setPassword(Arrays.toString(userDto.getPassword()));
         user.setName(userDto.getName());
         user.setSurname(userDto.getSurname());
         user.setParentName(userDto.getParentName());
@@ -34,7 +36,7 @@ public class UserMapper implements Mapper<User, UserDto> {
     public UserDto mapToDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setUsername(user.getUsername());
-        userDto.setPassword(user.getPassword());
+        userDto.setPassword(user.getPassword().toCharArray());
         userDto.setName(user.getName());
         userDto.setSurname(user.getSurname());
         userDto.setParentName(user.getParentName());
