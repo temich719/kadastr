@@ -13,6 +13,7 @@ import com.example.kadastr.security.util.AuthHelper;
 import com.example.kadastr.service.NewsService;
 import com.example.kadastr.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
@@ -43,6 +44,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Transactional(rollbackFor = Exception.class)
+    @Cacheable(value = "newsCache", key = "'news-' + #uuid + '-page-' + #page + '-size-' + #commentsSize")
     @Override
     public NewsDto getNewsById(UUID uuid, int page, int commentsSize) throws NoSuchIdException {
         News news = getPureNewsById(uuid);
@@ -52,12 +54,14 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Transactional(rollbackFor = Exception.class)
+    @Cacheable(value = "newsCache", key = "'page-' + #page + '-size-' + #size")
     @Override
     public List<NewsDto> getNewsList(int page, int size) {
         return newsDAO.findAll(PageRequest.of(page, size)).get().map(newsMapper::mapToDto).collect(Collectors.toList());
     }
 
     @Transactional(rollbackFor = Exception.class)
+    @Cacheable(value = "newsCache", key = "'text-' + #text + '-title-' + #title")
     @Override
     public List<NewsDto> findNewsByTextAndTitle(String text, String title) {
         return newsDAO.findByTextAndTitle(text, title).stream().map(newsMapper::mapToDto).collect(Collectors.toList());

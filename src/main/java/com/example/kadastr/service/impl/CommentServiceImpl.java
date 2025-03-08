@@ -12,6 +12,7 @@ import com.example.kadastr.security.util.AuthHelper;
 import com.example.kadastr.service.CommentService;
 import com.example.kadastr.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,12 +37,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Transactional(rollbackFor = Exception.class)
+    @Cacheable(value = "commentCache", key = "'comment-' + #uuid")
     @Override
     public CommentDto getCommentById(UUID uuid) throws NoSuchIdException {
         return commentMapper.mapToDto(getCommentModelById(uuid));
     }
 
     @Transactional(rollbackFor = Exception.class)
+    @Cacheable(value = "commentCache")
     @Override
     public List<CommentDto> getCommentsList() {
         return commentDAO.findAll().stream().map(commentMapper::mapToDto).collect(Collectors.toList());

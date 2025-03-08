@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-//todo comments, tests, logger(aop logger), exceptionHandler, JavaDoc, Readme, Caching
+//todo comments, tests, logger(aop logger), exceptionHandler, JavaDoc, Readme, Caching, refactoring(strings...)
 
 @RestController
 @RequestMapping("/api/comments")
