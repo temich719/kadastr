@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Setter
 @Getter
-public class News {
+public class News implements ControllableEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,6 +37,11 @@ public class News {
 
     @OneToMany(mappedBy = "news", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
+
+    @Override
+    public UUID getEntityControllerUuid() {
+        return insertedById;
+    }
 
     @Override
     public boolean equals(Object o) {

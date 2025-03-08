@@ -1,6 +1,8 @@
 package com.example.kadastr.service;
 
 import com.example.kadastr.dto.NewsDto;
+import com.example.kadastr.exception.AuthException;
+import com.example.kadastr.exception.IllegalControlException;
 import com.example.kadastr.exception.NoSuchIdException;
 
 import java.util.List;
@@ -14,10 +16,10 @@ public interface NewsService {
 
     List<NewsDto> findNewsByTextAndTitle(String text, String title);
 
-    void createNews(NewsDto newsDto);
+    void createNews(NewsDto newsDto) throws AuthException;
 
-    void updateNews(UUID uuid, NewsDto newsDto) throws NoSuchIdException;
+    void updateNews(UUID uuid, NewsDto newsDto) throws NoSuchIdException, IllegalControlException, AuthException;
 
-    void deleteNews(UUID uuid) throws NoSuchIdException;
+    void deleteNews(UUID uuid) throws NoSuchIdException, IllegalControlException;
 
 }

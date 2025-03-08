@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -35,6 +36,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         this.jwtProvider = jwtProvider;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userDAO.findUserByUsername(username).orElseThrow(
@@ -42,6 +44,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         );
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void createUser(UserDto userDto) {
         char[] password = passwordGenerator.generatePassword();
@@ -52,6 +55,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         Arrays.fill(bytePassword, (byte) 0);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String getUserToken(AuthRequest authRequest) throws AuthException {
         Optional<User> optionalUser = userDAO.findUserByUsername(authRequest.getUsername());

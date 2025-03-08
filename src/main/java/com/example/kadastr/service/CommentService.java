@@ -1,6 +1,8 @@
 package com.example.kadastr.service;
 
 import com.example.kadastr.dto.CommentDto;
+import com.example.kadastr.exception.AuthException;
+import com.example.kadastr.exception.IllegalControlException;
 import com.example.kadastr.exception.NoSuchIdException;
 
 import java.util.List;
@@ -12,10 +14,10 @@ public interface CommentService {
 
     List<CommentDto> getCommentsList();
 
-    void createComment(UUID newsId, CommentDto commentDto) throws NoSuchIdException;
+    void createComment(UUID newsId, CommentDto commentDto) throws NoSuchIdException, AuthException;
 
-    void updateComment(UUID uuid, CommentDto commentDto) throws NoSuchIdException;
+    void updateComment(UUID uuid, CommentDto commentDto) throws NoSuchIdException, IllegalControlException;
 
-    void deleteComment(UUID uuid) throws NoSuchIdException;
+    void deleteComment(UUID uuid) throws NoSuchIdException, IllegalControlException;
 
 }

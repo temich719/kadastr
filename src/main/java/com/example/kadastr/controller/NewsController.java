@@ -2,6 +2,8 @@ package com.example.kadastr.controller;
 
 import com.example.kadastr.dto.AnswerMessageJson;
 import com.example.kadastr.dto.NewsDto;
+import com.example.kadastr.exception.AuthException;
+import com.example.kadastr.exception.IllegalControlException;
 import com.example.kadastr.exception.InvalidInputDataException;
 import com.example.kadastr.exception.NoSuchIdException;
 import com.example.kadastr.service.NewsService;
@@ -50,7 +52,7 @@ public class NewsController extends AbstractController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public AnswerMessageJson createNews(@Valid @RequestBody NewsDto newsDto, BindingResult bindingResult) throws InvalidInputDataException {
+    public AnswerMessageJson createNews(@Valid @RequestBody NewsDto newsDto, BindingResult bindingResult) throws InvalidInputDataException, AuthException {
         bindingResultCheck(bindingResult);
         newsService.createNews(newsDto);
         return constructAnswer("News was successfully created", "CREATED");
@@ -58,7 +60,7 @@ public class NewsController extends AbstractController {
 
     @PatchMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public AnswerMessageJson updateNewsById(@PathVariable UUID uuid, @Valid @RequestBody NewsDto newsDto, BindingResult bindingResult) throws NoSuchIdException, InvalidInputDataException {
+    public AnswerMessageJson updateNewsById(@PathVariable UUID uuid, @Valid @RequestBody NewsDto newsDto, BindingResult bindingResult) throws NoSuchIdException, InvalidInputDataException, IllegalControlException, AuthException {
         bindingResultCheck(bindingResult);
         newsService.updateNews(uuid, newsDto);
         return constructAnswer("News with uuid = " + uuid + " was updated", "UPDATED");
@@ -66,7 +68,7 @@ public class NewsController extends AbstractController {
 
     @DeleteMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public AnswerMessageJson deleteNews(@PathVariable UUID uuid) throws NoSuchIdException {
+    public AnswerMessageJson deleteNews(@PathVariable UUID uuid) throws NoSuchIdException, IllegalControlException {
         newsService.deleteNews(uuid);
         return constructAnswer("News with uuid = " + uuid + " was deleted", "DELETED");
     }

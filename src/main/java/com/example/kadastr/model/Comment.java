@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Setter
 @Getter
-public class Comment {
+public class Comment implements ControllableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,6 +35,11 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "idNews", referencedColumnName = "id", nullable = false)
     private News news;
+
+    @Override
+    public UUID getEntityControllerUuid() {
+        return insertedById;
+    }
 
     @Override
     public boolean equals(Object o) {
