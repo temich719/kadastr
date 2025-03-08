@@ -11,6 +11,12 @@ import java.util.UUID;
 @Repository
 public interface CommentDAO extends JpaRepository<Comment, UUID> {
 
+    /**
+     * find comments that attached to news
+     * @param idNews id of news
+     * @param pageable param for pagination(page number and size)
+     * @return page with comments that attached to news with id = idNews
+     */
     Page<Comment> findCommentByIdNews(UUID idNews, Pageable pageable);
 
 }

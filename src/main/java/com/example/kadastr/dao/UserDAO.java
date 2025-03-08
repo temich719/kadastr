@@ -12,10 +12,12 @@ import java.util.UUID;
 @Repository
 public interface UserDAO extends JpaRepository<User, UUID> {
 
+    /**
+     * finds user by username
+     * @param username - username
+     * @return user with given username
+     */
     @Query(value = "SELECT * FROM users WHERE username = :username LIMIT 1", nativeQuery = true)
     Optional<User> findUserByUsername(@Param("username") String username);
-
-    @Query(value = "SELECT * FROM users WHERE username = :username AND password = :password LIMIT 1", nativeQuery = true)
-    Optional<User> findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
 }

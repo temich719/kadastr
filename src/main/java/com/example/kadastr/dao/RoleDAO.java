@@ -10,6 +10,11 @@ import java.util.UUID;
 @Repository
 public interface RoleDAO extends JpaRepository<Role, UUID> {
 
+    /**
+     * finds role by its name
+     * @param name role name
+     * @return role with given name
+     */
     @Query(value = "SELECT * FROM roles WHERE name = :name LIMIT 1", nativeQuery = true)
     Role findRoleByName(String name);
 
