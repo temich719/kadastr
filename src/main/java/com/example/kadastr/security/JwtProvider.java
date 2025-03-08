@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 
@@ -35,6 +37,7 @@ public class JwtProvider {
     public Optional<String> extractToken(HttpServletRequest request) {
         Optional<String> token = Optional.empty();
         String bearerToken = request.getHeader(AUTHORIZATION);
+        System.out.println("token: " + bearerToken);
         if (nonNull(bearerToken) && bearerToken.startsWith(BEARER_TOKEN)) {
             token = Optional.of(bearerToken.substring(BEARER_TOKEN.length() + 1));
         }
@@ -46,11 +49,14 @@ public class JwtProvider {
     }
 
     public boolean isTokenValid(String token, String username) {
+        System.out.println("isExp: " + isTokenExpired(token));
         return getLoginFromToken(token).equals(username) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
-        return !extractClaim(token).getExpiration().before(new Date());
+        System.out.println("ses: " + extractClaim(token).getExpiration());
+        System.out.println("new date: " + new Date());
+        return extractClaim(token).getExpiration().before(new Date());
     }
 
     private Claims extractClaim(String token) {

@@ -24,7 +24,7 @@ public class UserMapper implements Mapper<User, UserDto> {
     public User mapToModel(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
-        user.setPassword(Arrays.toString(userDto.getPassword()));
+        user.setPassword(userDto.getPassword());
         user.setName(userDto.getName());
         user.setSurname(userDto.getSurname());
         user.setParentName(userDto.getParentName());
@@ -36,7 +36,7 @@ public class UserMapper implements Mapper<User, UserDto> {
     public UserDto mapToDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setUsername(user.getUsername());
-        userDto.setPassword(user.getPassword().toCharArray());
+        userDto.setPassword(user.getPassword());
         userDto.setName(user.getName());
         userDto.setSurname(user.getSurname());
         userDto.setParentName(user.getParentName());

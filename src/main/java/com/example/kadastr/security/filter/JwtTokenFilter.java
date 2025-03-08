@@ -37,12 +37,15 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         Optional<String> optionalToken = jwtProvider.extractToken(request);
         if (optionalToken.isPresent()) {
             String token = optionalToken.get();
+            System.out.println("filter token: " + token);
             String username = jwtProvider.getLoginFromToken(token);
+            System.out.println("username froim token: " + username);
 
             if (nonNull(username) && isNull(SecurityContextHolder.getContext().getAuthentication())) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-
+                System.out.println("here1");
                 if (jwtProvider.isTokenValid(token, userDetails.getUsername())) {
+                    System.out.println("here2");
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities() //credentials = null 'cause we use jwt auth
                     );

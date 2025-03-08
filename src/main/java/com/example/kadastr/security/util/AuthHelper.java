@@ -28,6 +28,14 @@ public class AuthHelper {
         throw new IllegalControlException("You haven't rights to manipulate with this entity");
     }
 
+    public String restorePassword(char[] password) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (char c : password) {
+            stringBuilder.append(c);
+        }
+        return stringBuilder.toString();
+    }
+
     public UUID getCurrentUserUUID() throws AuthException {
         Authentication authentication = getAuthentication();
         if (nonNull(authentication) && authentication.isAuthenticated()) {

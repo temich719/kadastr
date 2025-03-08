@@ -13,11 +13,12 @@ VALUES ('ROLE_ADMIN'),
        ('ROLE_SUBSCRIBER');
 
 
+--- varchar(80)
 CREATE TABLE IF NOT EXISTS users
 (
     id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username       VARCHAR(40) NOT NULL UNIQUE,
-    password       VARCHAR(80) NOT NULL,
+    password       TEXT NOT NULL,
     name           VARCHAR(20) NOT NULL,
     surname        VARCHAR(20) NOT NULL,
     "parentName"   VARCHAR(20) NOT NULL,

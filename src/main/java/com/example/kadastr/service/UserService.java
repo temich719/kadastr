@@ -6,7 +6,7 @@ import com.example.kadastr.exception.AuthException;
 
 public interface UserService {
 
-    void createUser(UserDto userDto);
+    char[] createUser(UserDto userDto);
 
     String getUserToken(AuthRequest authRequest) throws AuthException;
 
