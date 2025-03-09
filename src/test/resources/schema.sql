@@ -1,4 +1,6 @@
----CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+-- script to init db structure in test db
+
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 ------------TABLES---------------------------
 CREATE TABLE IF NOT EXISTS roles
