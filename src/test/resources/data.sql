@@ -1,121 +1,34 @@
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
-
-------------TABLES---------------------------
-CREATE TABLE IF NOT EXISTS roles
-(
-    id   UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(20)
-);
-
 INSERT INTO roles (name)
 VALUES ('ROLE_ADMIN'),
        ('ROLE_JOURNALIST'),
        ('ROLE_SUBSCRIBER');
 
+-- Создаем тестовых пользователей с разными ролями
+INSERT INTO users (username, password, name, surname, "parentName", "roleId")
+SELECT 'user' || i,
+       'password' || i,
+       'Name' || i,
+       'Surname' || i,
+       'Parent' || i,
+       (SELECT id FROM roles ORDER BY RANDOM() LIMIT 1) -- Случайная роль
+FROM generate_series(1, 5) AS i;
 
---- varchar(80)
-CREATE TABLE IF NOT EXISTS users
-(
-    id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    username       VARCHAR(40) NOT NULL UNIQUE,
-    password       TEXT NOT NULL,
-    name           VARCHAR(20) NOT NULL,
-    surname        VARCHAR(20) NOT NULL,
-    "parentName"   VARCHAR(20) NOT NULL,
-    "creationDate" TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
-    "lastEditDate" TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
-    "roleId"       UUID,
-    FOREIGN KEY ("roleId") REFERENCES roles (id)
-);
+-- вручную делаем админа с предопределенным для тестирования uuid
+UPDATE users SET id = '5cce18df-81a1-46b5-943e-f691dd59d806' WHERE username = 'user1';
+UPDATE users SET "roleId" = (SELECT id FROM roles WHERE name = 'ROLE_ADMIN') WHERE id = '5cce18df-81a1-46b5-943e-f691dd59d806';
 
-CREATE TABLE IF NOT EXISTS news
-(
-    id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title          VARCHAR(150)  NOT NULL,
-    text           VARCHAR(2000) NOT NULL,
-    "creationDate" TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
-    "lastEditDate" TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
-    "insertedById" UUID,
-    "updatedById"  UUID,
-    FOREIGN KEY ("insertedById") REFERENCES users (id),
-    FOREIGN KEY ("updatedById") REFERENCES users (id)
-);
+-- Создаем 20 новостей, каждая привязана к случайному пользователю
+INSERT INTO news (title, text, "insertedById", "updatedById")
+SELECT 'News Title ' || i,
+       'News Content ' || i,
+       (SELECT id FROM users ORDER BY RANDOM() LIMIT 1), -- Случайный пользователь
+       (SELECT id FROM users ORDER BY RANDOM() LIMIT 1)  -- Случайный редактор
+FROM generate_series(1, 20) AS i;
 
-CREATE TABLE IF NOT EXISTS comments
-(
-    id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    text           VARCHAR(300) NOT NULL,
-    "creationDate" TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
-    "lastEditDate" TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
-    "insertedById" UUID,
-    "idNews"       UUID,
-    FOREIGN KEY ("insertedById") REFERENCES users (id),
-    FOREIGN KEY ("idNews") REFERENCES news (id)
-);
-
-------------FUNCTIONS---------------------------
-CREATE OR REPLACE FUNCTION set_creation_date()
-    RETURNS TRIGGER AS
-$$
-BEGIN
-    NEW."creationDate" := CURRENT_TIMESTAMP;------------change in db this quotes
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-
-CREATE OR REPLACE FUNCTION set_edit_date()
-    RETURNS TRIGGER AS
-$$
-BEGIN
-    NEW."lastEditDate" := CURRENT_TIMESTAMP;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-------------TRIGGERS---------------------------
-CREATE TRIGGER set_creation_date_trigger_users
-    BEFORE INSERT
-    ON users
-    FOR EACH ROW
-EXECUTE FUNCTION set_creation_date();
-
-CREATE TRIGGER set_edit_date_trigger_users
-    BEFORE UPDATE
-    ON users
-    FOR EACH ROW
-EXECUTE FUNCTION set_edit_date();
-
-----------------------------------------------
-CREATE TRIGGER set_creation_date_trigger_news
-    BEFORE INSERT
-    ON news
-    FOR EACH ROW
-EXECUTE FUNCTION set_creation_date();
-
-CREATE TRIGGER set_edit_date_trigger_news
-    BEFORE UPDATE
-    ON news
-    FOR EACH ROW
-EXECUTE FUNCTION set_edit_date();
-
-----------------------------------------------
-CREATE TRIGGER set_creation_date_trigger_comments
-    BEFORE INSERT
-    ON comments
-    FOR EACH ROW
-EXECUTE FUNCTION set_creation_date();
-
-CREATE TRIGGER set_edit_date_trigger_comments
-    BEFORE UPDATE
-    ON comments
-    FOR EACH ROW
-EXECUTE FUNCTION set_edit_date();
-
-
-
-
-
-
-
-
+-- Создаем 10 комментариев к каждой новости от случайных пользователей
+INSERT INTO comments (text, "insertedById", "idNews")
+SELECT 'Comment ' || i || ' on News ' || n.id,
+       (SELECT id FROM users ORDER BY RANDOM() LIMIT 1), -- Случайный пользователь
+       n.id
+FROM news AS n,
+     generate_series(1, 10) AS i;
