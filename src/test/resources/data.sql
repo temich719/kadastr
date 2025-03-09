@@ -81,7 +81,7 @@ CREATE TRIGGER set_creation_date_trigger_users
 EXECUTE FUNCTION set_creation_date();
 
 CREATE TRIGGER set_edit_date_trigger_users
-    AFTER UPDATE
+    BEFORE UPDATE
     ON users
     FOR EACH ROW
 EXECUTE FUNCTION set_edit_date();
@@ -94,7 +94,7 @@ CREATE TRIGGER set_creation_date_trigger_news
 EXECUTE FUNCTION set_creation_date();
 
 CREATE TRIGGER set_edit_date_trigger_news
-    AFTER UPDATE
+    BEFORE UPDATE
     ON news
     FOR EACH ROW
 EXECUTE FUNCTION set_edit_date();
@@ -107,7 +107,7 @@ CREATE TRIGGER set_creation_date_trigger_comments
 EXECUTE FUNCTION set_creation_date();
 
 CREATE TRIGGER set_edit_date_trigger_comments
-    AFTER UPDATE
+    BEFORE UPDATE
     ON comments
     FOR EACH ROW
 EXECUTE FUNCTION set_edit_date();

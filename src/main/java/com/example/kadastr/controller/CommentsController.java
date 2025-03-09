@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-//todo comments, tests, logger(aop logger), Readme, refactoring(strings..., sout, import), lastEditDate not works
+//todo comments, tests, Readme, refactoring(strings..., sout, import)
 
 @RestController
 @RequestMapping("/api/comments")
