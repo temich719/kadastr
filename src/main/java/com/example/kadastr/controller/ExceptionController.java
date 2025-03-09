@@ -26,9 +26,9 @@ public class ExceptionController extends AbstractController {
         return constructAnswer(e.getMessage(), ERROR_STATUS);
     }
 
-    @ExceptionHandler(Throwable.class)
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public AnswerMessageJson handleThrowable() {
-        return constructAnswer(UNKNOWN_ERROR, ERROR_STATUS);
+    public AnswerMessageJson handleThrowable(Exception e) {
+        return constructAnswer(UNKNOWN_ERROR + ": " + e.getMessage(), ERROR_STATUS);
     }
 }
