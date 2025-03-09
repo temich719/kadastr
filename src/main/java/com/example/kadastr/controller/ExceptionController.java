@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExceptionController extends AbstractController {
 
     private static final String ERROR_STATUS = "ERROR";
-    private static final String UNKNOWN_ERROR = "UNKNOWN ERROR OCCURRED";
+    private static final String UNKNOWN_ERROR = "UNKNOWN ERROR OCCURRED: ";
 
     public ExceptionController(ObjectProvider<AnswerMessageJson> answerMessageJson) {
         super(answerMessageJson);
@@ -29,6 +29,6 @@ public class ExceptionController extends AbstractController {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public AnswerMessageJson handleThrowable(Exception e) {
-        return constructAnswer(UNKNOWN_ERROR + ": " + e.getMessage(), ERROR_STATUS);
+        return constructAnswer(UNKNOWN_ERROR + e.getMessage(), ERROR_STATUS);
     }
 }

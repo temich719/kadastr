@@ -18,11 +18,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-//todo comments, tests, Readme, refactoring(strings..., sout, import)
+import static com.example.kadastr.util.StringsStorage.*;
 
+//todo comments, Readme, refactoring(strings..., sout, import)
+
+//controller that dispatch requests of comment entity
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping(COMMENTS_CONTROLLER_URL)
 public class CommentsController extends AbstractController {
+
+    private static final String COMMENT_CREATED = "Comment was successfully created";
+    private static final String COMMENT_WITH_ID = "Comment with uuid = ";
+    private static final String COMMENT_WAS_UPDATED = " was successfully updated";
+    private static final String COMMENT_WAS_DELETED = " was successfully deleted";
 
     private final CommentService commentService;
 
@@ -49,7 +57,7 @@ public class CommentsController extends AbstractController {
     public AnswerMessageJson createComment(@Valid @RequestBody CommentDto commentDto, BindingResult bindingResult) throws NoSuchIdException, InvalidInputDataException, AuthException {
         bindingResultCheck(bindingResult);
         commentService.createComment(commentDto.getIdNews(), commentDto);
-        return constructAnswer("Comment was successfully created", "CREATED");
+        return constructAnswer(COMMENT_CREATED, CREATED_STATUS);
     }
 
     @PatchMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,14 +65,14 @@ public class CommentsController extends AbstractController {
     public AnswerMessageJson updateComment(@PathVariable UUID uuid, @Valid @RequestBody CommentDto commentDto, BindingResult bindingResult) throws NoSuchIdException, InvalidInputDataException, IllegalControlException {
         bindingResultCheck(bindingResult);
         commentService.updateComment(uuid, commentDto);
-        return constructAnswer("Comment with uuid = " + uuid + " was successfully updated", "UPDATED");
+        return constructAnswer(COMMENT_WITH_ID + uuid + COMMENT_WAS_UPDATED, UPDATED_STATUS);
     }
 
     @DeleteMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public AnswerMessageJson deleteComment(@PathVariable UUID uuid) throws NoSuchIdException, IllegalControlException {
         commentService.deleteComment(uuid);
-        return constructAnswer("Comment with uuid = " + uuid + " was successfully deleted", "DELETED");
+        return constructAnswer(COMMENT_WITH_ID + uuid + COMMENT_WAS_DELETED, DELETED_STATUS);
     }
 
 }

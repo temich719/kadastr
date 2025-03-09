@@ -6,15 +6,18 @@ import com.example.kadastr.model.ControllableEntity;
 import com.example.kadastr.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+import static com.example.kadastr.util.StringsStorage.ROLE_ADMIN;
 import static java.util.Objects.nonNull;
 
 @Component
 public class AuthHelper {
+
+    private static final String NOT_ENOUGH_CONTROL_RIGHTS = "You haven't rights to manipulate with this entity";
+    private static final String NOBODY_AUTHENTICATED = "Nobody authenticated!";
 
     public <T extends ControllableEntity> boolean checkUserControlOnEntity(T t) throws IllegalControlException {
         Authentication authentication = getAuthentication();
@@ -25,7 +28,7 @@ public class AuthHelper {
                 return true;
             }
         }
-        throw new IllegalControlException("You haven't rights to manipulate with this entity");
+        throw new IllegalControlException(NOT_ENOUGH_CONTROL_RIGHTS);
     }
 
     public String restorePassword(char[] password) {
@@ -42,11 +45,11 @@ public class AuthHelper {
             User user = (User) authentication.getPrincipal();
             return user.getUuid();
         }
-        throw new AuthException("Nobody authenticated!");
+        throw new AuthException(NOBODY_AUTHENTICATED);
     }
 
     public boolean isCurrentAuthenticatedUserAdmin(User currentAuthenticatedUser) {
-        return currentAuthenticatedUser.getRole().getAuthority().equals("ROLE_ADMIN");
+        return currentAuthenticatedUser.getRole().getAuthority().equals(ROLE_ADMIN);
     }
 
     private Authentication getAuthentication() {
