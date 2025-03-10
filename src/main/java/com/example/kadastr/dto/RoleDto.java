@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import static com.example.kadastr.util.StringsStorage.ROLE_VALIDATOR_MESSAGE;
 
+//Data transfer object of Role entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

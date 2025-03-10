@@ -1,5 +1,6 @@
 package com.example.kadastr.util;
 
+//stores string constants for reusability and optimization of memory allocation
 public class StringsStorage {
 
     public static final String AUTH_CONTROLLER_URL = "/api/auth";

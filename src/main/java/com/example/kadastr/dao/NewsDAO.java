@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
+//Data access object on News entity
 @Repository
 public interface NewsDAO extends JpaRepository<News, UUID> {
 

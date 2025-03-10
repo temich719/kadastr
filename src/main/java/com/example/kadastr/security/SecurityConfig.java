@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static org.springframework.http.HttpMethod.*;
 
+//global security config
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

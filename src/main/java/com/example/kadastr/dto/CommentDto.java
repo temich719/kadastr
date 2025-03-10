@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import static com.example.kadastr.util.StringsStorage.COMMENT_TEXT_VALIDATOR_MESSAGE;
 
+//Data transfer object of Comment entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

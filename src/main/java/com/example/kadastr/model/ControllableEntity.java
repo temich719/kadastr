@@ -2,6 +2,7 @@ package com.example.kadastr.model;
 
 import java.util.UUID;
 
+//Marks entity that can has the controller(definite user)
 public interface ControllableEntity {
 
     /**

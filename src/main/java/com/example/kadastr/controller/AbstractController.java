@@ -20,6 +20,7 @@ public class AbstractController {
         this.answerMessageJson = answerMessageJson;
     }
 
+    //method builds http response answer
     protected AnswerMessageJson constructAnswer(String message, String status) {
         AnswerMessageJson ans = getAns();
         ans.setMessage(message);

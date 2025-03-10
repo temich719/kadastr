@@ -22,7 +22,7 @@ import static com.example.kadastr.util.StringsStorage.*;
 
 //todo comments, Readme, refactoring(strings..., sout, import)
 
-//controller that dispatch requests of comment entity
+//comments CRUD controller
 @RestController
 @RequestMapping(COMMENTS_CONTROLLER_URL)
 public class CommentsController extends AbstractController {

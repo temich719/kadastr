@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import static java.util.Objects.nonNull;
 
+//class provides methods for operations with JWT
 @Component
 public class JwtProvider {
 

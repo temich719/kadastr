@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 
+//Data access object on User entity
 @Repository
 public interface UserDAO extends JpaRepository<User, UUID> {
 

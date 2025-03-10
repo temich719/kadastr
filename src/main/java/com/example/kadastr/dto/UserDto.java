@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import static com.example.kadastr.util.StringsStorage.*;
 
+//Data transfer object of User entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -19,6 +19,7 @@ public class AuthHelper {
     private static final String NOT_ENOUGH_CONTROL_RIGHTS = "You haven't rights to manipulate with this entity";
     private static final String NOBODY_AUTHENTICATED = "Nobody authenticated!";
 
+    //checks if input object can be manipulated by currently authenticated user
     public <T extends ControllableEntity> boolean checkUserControlOnEntity(T t) throws IllegalControlException {
         Authentication authentication = getAuthentication();
         if (nonNull(authentication) && authentication.isAuthenticated()) {
@@ -31,6 +32,7 @@ public class AuthHelper {
         throw new IllegalControlException(NOT_ENOUGH_CONTROL_RIGHTS);
     }
 
+    //convert char password to string
     public String restorePassword(char[] password) {
         StringBuilder stringBuilder = new StringBuilder();
         for (char c : password) {
@@ -39,6 +41,7 @@ public class AuthHelper {
         return stringBuilder.toString();
     }
 
+    //gets current user uuid
     public UUID getCurrentUserUUID() throws AuthException {
         Authentication authentication = getAuthentication();
         if (nonNull(authentication) && authentication.isAuthenticated()) {
@@ -48,6 +51,7 @@ public class AuthHelper {
         throw new AuthException(NOBODY_AUTHENTICATED);
     }
 
+    //checks if current user has Admin rights
     public boolean isCurrentAuthenticatedUserAdmin(User currentAuthenticatedUser) {
         return currentAuthenticatedUser.getRole().getAuthority().equals(ROLE_ADMIN);
     }

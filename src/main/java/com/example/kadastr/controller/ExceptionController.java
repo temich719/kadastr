@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+//Exception handler
 @ControllerAdvice
 @RestController
 public class ExceptionController extends AbstractController {
@@ -20,12 +21,14 @@ public class ExceptionController extends AbstractController {
         super(answerMessageJson);
     }
 
+    //handles specified exceptions
     @ExceptionHandler({AuthException.class, IllegalControlException.class, InvalidInputDataException.class, InvalidTokenException.class, NoSuchIdException.class, NotRegisteredException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public AnswerMessageJson handleMyExceptions(Exception e) {
         return constructAnswer(e.getMessage(), ERROR_STATUS);
     }
 
+    //handles unpredicted exceptions
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public AnswerMessageJson handleThrowable(Exception e) {

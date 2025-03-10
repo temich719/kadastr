@@ -21,6 +21,7 @@ import java.util.Optional;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.isNull;
 
+// Filter that checks every request on JWT token, then validate it and if token ok sets authentication
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+//Data access object on Comment entity
 @Repository
 public interface CommentDAO extends JpaRepository<Comment, UUID> {
 

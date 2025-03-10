@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+//Logger class (AOP style) that create logs of all methods that were executed into app layers (Controller, Service, Repository)
 @Slf4j
 @Aspect
 @Component

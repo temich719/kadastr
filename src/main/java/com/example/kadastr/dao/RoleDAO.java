@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+//Data access object on Role entity
 @Repository
 public interface RoleDAO extends JpaRepository<Role, UUID> {
 

@@ -20,6 +20,7 @@ import java.util.UUID;
 
 import static com.example.kadastr.util.StringsStorage.*;
 
+//news CRUD controller
 @RestController
 @RequestMapping(NEWS_CONTROLLER_URL)
 public class NewsController extends AbstractController {

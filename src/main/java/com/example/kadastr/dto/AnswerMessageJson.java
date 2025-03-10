@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+//Data transfer object of http response
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

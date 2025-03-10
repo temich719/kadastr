@@ -8,6 +8,7 @@ import java.util.Random;
 @Component
 public class PasswordGenerator {
 
+    //data set from which password will be generated
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
 
     public char[] generatePassword() {
@@ -23,7 +24,7 @@ public class PasswordGenerator {
         return password;
     }
 
-    //generate password with length between 8 and 80
+    //generate password length between 8 and 80 symbols
     private int getRandomPasswordLen() {
         Random random = new Random();
         int min = 8;

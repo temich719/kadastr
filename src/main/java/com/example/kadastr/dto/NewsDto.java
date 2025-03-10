@@ -12,6 +12,7 @@ import java.util.UUID;
 import static com.example.kadastr.util.StringsStorage.NEWS_TEXT_VALIDATOR_MESSAGE;
 import static com.example.kadastr.util.StringsStorage.NEWS_TITLE_VALIDATOR_MESSAGE;
 
+//Data transfer object of News entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
